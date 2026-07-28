@@ -82,7 +82,7 @@ Seven THROTTLE configurations and five SWE-bench configurations, one run per cel
 - **Completion rates followed the provider, not the model.** The two worst rows in the SWE-bench table are different models on the same serving path, both stuck at 42 of 50, failing the same way: patches the judge rejected. Swap the model and the problem stays. Swap the provider and it goes away. Benchmark only models and you will blame the wrong layer.
 - **The harness is a variable.** The same model flipped between pass and fail depending on who drove it.
 
-**THROTTLE (hidden grader, Valkey fork).** All models served on Baseten except the Opus planners.
+**THROTTLE (hidden grader, Valkey fork).** All models served on Baseten except the Opus 4.8 planner.
 
 | Builder | Planner / design | Verdict | Wall | Cost |
 |---|---|---|---|---|
