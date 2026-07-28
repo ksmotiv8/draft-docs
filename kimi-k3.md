@@ -121,6 +121,6 @@ Open weights make the model a commodity. Serving is where the differentiation ac
 
 Attention got Kimi-K3 to the water cooler, and attention will move onto the next model as well. What attention cannot do is tell you whether to route your work to it. That took fifty small tasks, one hidden grader, and a metered gateway: about $86 and an afternoon, straight off the tables above.
 
-Kimi-K3 ships with 96 attention heads per layer. Your org ships with one, and it is the scarcest resource in the stack. The models are converging architecturally, which means the intimidating layer is getting easier to reason about every month. Mechanical empathy was never really about the machine. It is about where the person on top of the stack points their attention, and the returns compound for the ones who point it well. The launches will keep coming, each with its week at the water cooler. Let them have the feed. Point your head at the grader.
+Kimi-K3 ships with 96 attention heads per layer. Your org ships with one, and it is the scarcest resource in the stack. The models are converging architecturally, which means the intimidating layer is getting easier to reason about every month. Mechanical empathy was never really about the machine. It is about where the person on top of the stack points their attention, and the returns compound for the ones who point it well. The launches will keep coming, each with its week at the water cooler. Attention is all they need from you. It is not all you need from them.
 
 Own your evals. Rent your models.
