@@ -10,7 +10,8 @@ Yet the benchmark screenshots, parameter counts, and comparisons against frontie
 2. **Your evals matter more than your model picker.** Model labs and inference providers are now competing aggressively across the quality-cost-latency triangle, both through hosting infrastructure and model releases. The decision is no longer a simple binary between OpenAI and Anthropic. More options increase the probability of choosing poorly, but they also demand faster, more rigorous evaluation systems and the ability to switch models quickly when the data changes.
 3. **Mechanical empathy is the pinnacle of good engineering.** Inference is everywhere in modern software systems. Take a coding workflow as an illustrative example. To reason about it properly, you need to understand the full stack: the human, the agent harness (Claude Code, Codex, etc.), the model gateway, the inference provider, and the model itself. For those of us ramping up, the model seems like the most intimidating part of the equation. Fortunately, the models are increasingly standardizing at an architectural level, which makes understanding them easier than ever. Meanwhile, the human behind the coding harness, and designing the stack at an enterprise, is more important than ever.
 
-The most interesting signal from Kimi-K3 is how inference economics and evaluation loops are changing.
+> [!IMPORTANT]
+> The most interesting signal from Kimi-K3 is how inference economics and evaluation loops are changing.
 
 ## Key Dimensions in a Model
 
