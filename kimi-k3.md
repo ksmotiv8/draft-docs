@@ -16,7 +16,7 @@ Yet the benchmark screenshots, parameter counts, and comparisons against frontie
 
 ## Key Dimensions in a Model
 
-**1. Total parameters, active parameters, and the MoE architecture.** Kimi-K3 (and Thinking Machines' Inkling, GLM, etc.) are all sparse models. While they vary in total parameter count, Kimi pushes the parameter count to frontier levels with 2.8T parameters.
+**1. Total parameters, active parameters, and the MoE architecture.** Kimi-K3 (and Inkling, GLM, etc.) are all sparse models. While they vary in total parameter count, Kimi pushes the parameter count to frontier levels with 2.8T parameters.
 
 | Model | Total parameters | Active parameters |
 |---|---|---|
@@ -49,7 +49,7 @@ Here is what that looks like in practice. We asked both models to add a native T
 
 If a model jumps the gun and "completes" your coding task, did it really finish the task? Models make tool calls, make a varying number of turns for the same task, and reason differently.
 
-The judgment of the model, its chattiness, and its temperament make an impact on the total time to complete the task at a bar you deem worthy. In our SWE-bench batch, GLM-Fast's median task finished in 71 seconds to Kimi's 121, yet the bills landed 3 percent apart: fast tokens did not buy a cheaper or better outcome.
+The judgment of the model, its chattiness, and its temperament make an impact on the total time to complete the task at a bar you deem worthy. In our SWE-bench batch, GLM-Fast's median task finished in 71 seconds to Kimi's 121, yet the bills landed 29 cents apart: fast tokens did not buy a cheaper or better outcome.
 
 ## Our Eval Framework: The Rest Is Still Unwritten
 
@@ -78,7 +78,7 @@ Seven THROTTLE configurations and five SWE-bench configurations, one run per cel
 
 - **Kimi-K3 passes our hardest systems benchmark solo**, with no planning phase, at the lowest estimated cost of any Kimi configuration. Adding a plan phase doubled its cost for zero quality gain.
 - **GLM-5.2 stays the routing sweet spot**: cheaper wall time, and it passes when any competent planner sets the direction. Planner and builder are different jobs.
-- **List prices exaggerate.** On paper, Kimi's input tokens cost 43 percent more than GLM-Fast's. In the metered batches the gap was 3 percent: $10.41 versus $10.12. An agentic session spends most of its input tokens re-reading its own context, which bills at the discounted cache-read rate, and both models sustained high cache hit rates. Most of the list-price gap never gets billed.
+- **List prices exaggerate.** On paper, Kimi's input tokens cost 43 percent more than GLM-Fast's. In the metered batches the gap was 29 cents: $10.41 versus $10.12. An agentic session spends most of its input tokens re-reading its own context, which bills at the discounted cache-read rate, and both models sustained high cache hit rates. Most of the list-price gap never gets billed.
 - **Completion rates followed the provider, not the model.** The two worst rows in the SWE-bench table are different models on the same serving path, both stuck at 42 of 50, failing the same way: patches the judge rejected. Swap the model and the problem stays. Swap the provider and it goes away. Benchmark only models and you will blame the wrong layer.
 - **The harness is a variable.** The same model flipped between pass and fail depending on who drove it.
 
@@ -106,7 +106,7 @@ Seven THROTTLE configurations and five SWE-bench configurations, one run per cel
 | Provider B Kimi fast | 49/50 | 120s | $28.50 | $0.58 |
 | Provider B Kimi standard | 42/50 | 153s | $13.73 | $0.33 |
 
-Kimi's input rate is 43 percent higher than GLM-Fast's, yet the completed Baseten batches land 3 percent apart. Now read down the Kimi rows: the same model, resolving 48 or 49 of 50, costs $10.41 on one serving path and $28.50 on another. And the two 42 of 50 rows are different models on the same provider path, failing the same way, with the judge rejecting their patches at the same rate. Price and completion both tracked the serving path.
+Kimi's input rate is 43 percent higher than GLM-Fast's, yet the completed Baseten batches land 29 cents apart. Now read down the Kimi rows: the same model, resolving 48 or 49 of 50, costs $10.41 on one serving path and $28.50 on another. And the two 42 of 50 rows are different models on the same provider path, failing the same way, with the judge rejecting their patches at the same rate. Price and completion both tracked the serving path.
 
 ## Why We Build on Baseten
 
