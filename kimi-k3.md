@@ -113,12 +113,14 @@ Kimi's input rate is 43 percent higher than GLM-Fast's, yet the completed batche
 
 We did not pick Baseten off a pricing page. We picked it off these runs. Across both layers, the Baseten-served routes had the cleanest completion rates, dependable prefix caching (97 percent-plus cache-read on long sessions), and boring latency tails. Boring tails are the highest compliment an agent platform can pay a serving stack.
 
+These runs changed our routing, not just our slides: on our production gateway, Baseten is the primary serving leg for Kimi-K3, and everything else in the chain is failover.
+
 Open weights make the model a commodity. Serving is where the differentiation actually lives.
 
 ## Your Attention Head
 
 Attention got Kimi-K3 to the water cooler, and attention will move onto the next model as well. What attention cannot do is tell you whether to route your work to it. That took fifty small tasks, one hidden grader, and a metered gateway: about $86 and an afternoon, straight off the tables above.
 
-Kimi-K3 ships with dozens of attention heads per layer. Your org ships with one, and it is the scarcest resource in the stack. The models are converging architecturally, which means the intimidating layer is getting easier to reason about every month. Mechanical empathy was never really about the machine. It is about where the person on top of the stack points their attention, and the returns compound for the ones who point it well. The launches will keep coming, each with its week at the water cooler. Let them have the feed. Point your head at the grader.
+Kimi-K3 ships with 96 attention heads per layer. Your org ships with one, and it is the scarcest resource in the stack. The models are converging architecturally, which means the intimidating layer is getting easier to reason about every month. Mechanical empathy was never really about the machine. It is about where the person on top of the stack points their attention, and the returns compound for the ones who point it well. The launches will keep coming, each with its week at the water cooler. Let them have the feed. Point your head at the grader.
 
 Own your evals. Rent your models.
