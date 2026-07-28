@@ -2,7 +2,7 @@
 
 *[Attention](https://arxiv.org/abs/1706.03762) is warranted, depth is required, model selection is not optional.*
 
-[Kimi-K3](https://huggingface.co/moonshotai) is the center of attention at the proverbial water cooler, aka LinkedIn, this week. The attention is warranted. Kimi-K3 is a frontier-class, natively multimodal model (text, image, and video flow through the same network) with ~2.8T total parameters, activating 16 of its 896 experts per token in its MoE architecture. It is now among the first models where inference providers like [Baseten](https://www.baseten.co) can charge ~$15 per million output tokens at the top end. That price is not arbitrary: in our runs, Kimi-K3 is less chatty than models like GLM, and while slower, it tends to be more deliberate, with what appears to be stronger reasoning stability.
+[Kimi-K3](https://huggingface.co/moonshotai) is the center of attention at the proverbial water cooler, aka LinkedIn, this week. The attention is warranted. Kimi-K3 is a frontier-class, natively multimodal model (text, image, and video flow through the same network) with ~2.8T total parameters, activating 16 of its 896 experts per token in its MoE architecture. It is now among the first models where inference providers like [Baseten](https://www.baseten.co) can charge ~$15 per million output tokens at the top end. That price is not arbitrary, and the hardware arithmetic below explains it. In our runs, Kimi-K3 is less chatty than models like GLM, and while slower, it tends to be more deliberate, with what appears to be stronger reasoning stability.
 
 Yet the benchmark screenshots, parameter counts, and comparisons against frontier models obscure a more important story with three dimensions:
 
@@ -16,7 +16,7 @@ Yet the benchmark screenshots, parameter counts, and comparisons against frontie
 
 ## Key Dimensions in a Model
 
-**1. Total parameters, active parameters, and the MoE architecture.** Kimi-K3 (and Inkling, GLM, etc.) are all sparse models. While they vary in total parameter count, Kimi pushes the parameter count to frontier levels with 2.8T parameters.
+**1. Total parameters, active parameters, and the MoE architecture.** Kimi-K3 (and Thinking Machines' Inkling, GLM, etc.) are all sparse models. While they vary in total parameter count, Kimi pushes the parameter count to frontier levels with 2.8T parameters.
 
 | Model | Total parameters | Active parameters |
 |---|---|---|
@@ -31,7 +31,7 @@ Oddly enough, GLM, Inkling, and DeepSeek V4 all land in the same 40-55B active b
 
 The trade MoE buys you: total model size can scale dramatically while the per-token cost stays close to running the selected experts plus router overhead, because what moves between experts is activations, not weights, and activations are tiny. The bill comes due inside the GPU: every active parameter must be read out of HBM for every generated token.
 
-For most of this class, the serving quantum is an 8-GPU NVLink node, and the node imposes two separate budgets. Memory capacity caps total parameters: every expert has to sit in the node's HBM whether or not it fires. Memory bandwidth, the HBM read speed inside a single GPU, not the interconnect between GPUs, caps active parameters: that per-token read competes with every concurrent user's KV cache traffic. The 40-55B band is roughly one GPU's worth of HBM bandwidth per token step.
+For most of this class, the unit of serving is an 8-GPU NVLink node, and the node imposes two separate budgets. Memory capacity caps total parameters: every expert has to sit in the node's HBM whether or not it fires. Memory bandwidth, the HBM read speed inside a single GPU, not the interconnect between GPUs, caps active parameters: that per-token read competes with every concurrent user's KV cache traffic. The 40-55B band is roughly one GPU's worth of HBM bandwidth per token step.
 
 **Total parameters are sized to the node; active parameters are sized to the GPU.**
 
@@ -74,7 +74,7 @@ We then added a depth test around [Valkey](https://valkey.io), which is an open 
 
 ## Highlighted Results
 
-Eight THROTTLE configurations and five SWE-bench configurations, one run per cell, through mo on Baseten and one other provider. These are real-world observations, not controlled A/Bs. The lessons that survived the runs:
+Seven THROTTLE configurations and five SWE-bench configurations, one run per cell, through mo on Baseten and one other provider. These are real-world observations, not controlled A/Bs. The lessons that survived the runs:
 
 - **Kimi-K3 passes our hardest systems benchmark solo**, with no planning phase, at the lowest estimated cost of any Kimi configuration. Adding a plan phase doubled its cost for zero quality gain.
 - **GLM-5.2 stays the routing sweet spot**: cheaper wall time, and it passes when any competent planner sets the direction. Planner and builder are different jobs.
@@ -87,9 +87,8 @@ Eight THROTTLE configurations and five SWE-bench configurations, one run per cel
 | Builder | Planner / design | Verdict | Wall | Cost |
 |---|---|---|---|---|
 | Kimi-K3 | none (solo) | PASS | 27m05s | ~$1.42* |
-| Kimi-K3 | itself | PASS | 28m | ~$3.17* |
+| Kimi-K3 | itself | PASS | 28m00s | ~$3.17* |
 | Kimi-K3 | Opus 4.8 | PASS | 43m55s | $3.82 |
-| Kimi-K3 | Opus 5 | FAIL | 100m cap | n/a |
 | GLM-5.2-Fast | none (solo) | FAIL | 21m16s | $2.94 |
 | GLM-5.2-Fast | Kimi-K3 | PASS | 15m36s | $2.05 |
 | GLM-5.2 | Kimi-K3 (design only) | PASS | 13m36s | $1.96 |
@@ -107,7 +106,7 @@ Eight THROTTLE configurations and five SWE-bench configurations, one run per cel
 | Provider B Kimi fast | 49/50 | 120s | $28.50 | $0.58 |
 | Provider B Kimi standard | 42/50 | 153s | $13.73 | $0.33 |
 
-Kimi's input rate is 43 percent higher than GLM-Fast's, yet the completed batches land 3 percent apart. Read the last column and notice which rows are expensive: not the ones running the pricey model, but the ones that leave tasks unfinished. An unfinished task still bills every token and returns nothing. And the two 42 of 50 rows are different models on the same provider path, failing the same way, with the judge rejecting their patches at the same rate.
+Kimi's input rate is 43 percent higher than GLM-Fast's, yet the completed Baseten batches land 3 percent apart. Now read down the Kimi rows: the same model, resolving 48 or 49 of 50, costs $10.41 on one serving path and $28.50 on another. And the two 42 of 50 rows are different models on the same provider path, failing the same way, with the judge rejecting their patches at the same rate. Price and completion both tracked the serving path.
 
 ## Why We Build on Baseten
 
@@ -119,7 +118,7 @@ Open weights make the model a commodity. Serving is where the differentiation ac
 
 ## Your Attention Head
 
-Attention got Kimi-K3 to the water cooler, and attention will move onto the next model as well. What attention cannot do is tell you whether to route your work to it. That took fifty small tasks, one hidden grader, and a metered gateway: about $86 and an afternoon, straight off the tables above.
+Attention got Kimi-K3 to the water cooler, and attention will move onto the next model as well. What attention cannot do is tell you whether to route your work to it. That took fifty small tasks, one hidden grader, and a metered gateway: about $88 and an afternoon, straight off the tables above.
 
 Kimi-K3 ships with 96 attention heads per layer. Your org ships with one, and it is the scarcest resource in the stack. The models are converging architecturally, which means the intimidating layer is getting easier to reason about every month. Mechanical empathy was never really about the machine. It is about where the person on top of the stack points their attention, and the returns compound for the ones who point it well. The launches will keep coming, each with its week at the water cooler. Attention is all they need from you. It is not all you need from them.
 
