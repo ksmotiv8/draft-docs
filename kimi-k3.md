@@ -78,8 +78,8 @@ Eight THROTTLE configurations and five SWE-bench configurations, one run per cel
 
 - **Kimi-K3 passes our hardest systems benchmark solo**, with no planning phase, at the lowest estimated cost of any Kimi configuration. Adding a plan phase doubled its cost for zero quality gain.
 - **GLM-5.2 stays the routing sweet spot**: cheaper wall time, and it passes when any competent planner sets the direction. Planner and builder are different jobs.
-- **Sticker prices compress in practice.** A 43 percent input-rate gap became a 3 percent batch-cost gap, because agentic sessions are dominated by cache reads and both models cache well.
-- **Task completion tracked the serving path, not the model.** One provider path bled judge declines for two different models.
+- **List prices exaggerate.** On paper, Kimi's input tokens cost 43 percent more than GLM-Fast's. In the metered batches the gap was 3 percent: $10.41 versus $10.12. An agentic session spends most of its input tokens re-reading its own context, which bills at the discounted cache-read rate, and both models sustained high cache hit rates. Most of the list-price gap never gets billed.
+- **Completion rates followed the provider, not the model.** The two worst rows in the SWE-bench table are different models on the same serving path, both stuck at 42 of 50, failing the same way: patches the judge rejected. Swap the model and the problem stays. Swap the provider and it goes away. Benchmark only models and you will blame the wrong layer.
 - **The harness is a variable.** The same model flipped between pass and fail depending on who drove it.
 
 **THROTTLE (hidden grader, Valkey fork).** All models served on Baseten except the Opus planners.
