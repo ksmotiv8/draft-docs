@@ -1,6 +1,6 @@
 # Attention Is Necessary but Not Sufficient
 
-*[Attention](https://arxiv.org/abs/1706.03762) is warranted, but depth is required: pick models by understanding how they actually work, then prove the pick with your own evals.*
+*[Attention](https://arxiv.org/abs/1706.03762) is warranted, depth is required, model selection is not optional.*
 
 [Kimi-K3](https://huggingface.co/moonshotai) is the center of attention at the proverbial water cooler, aka LinkedIn, this week. The attention is warranted. Kimi-K3 is a frontier-class model with ~2.8T total parameters, activating 16 of its 896 experts per token in its MoE architecture. It is now among the first models where inference providers like [Baseten](https://www.baseten.co) can charge ~$15 per million output tokens at the top end. That price is not arbitrary: in our runs, Kimi-K3 is less chatty than models like GLM, and while slower, it tends to be more deliberate, with what appears to be stronger reasoning stability.
 
