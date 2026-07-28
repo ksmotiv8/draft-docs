@@ -10,8 +10,9 @@ Yet the benchmark screenshots, parameter counts, and comparisons against frontie
 2. **Your evals matter more than your model picker.** Model labs and inference providers are now competing aggressively across the quality-cost-latency triangle, both through hosting infrastructure and model releases. The decision is no longer a simple binary between OpenAI and Anthropic. More options increase the probability of choosing poorly, but they also demand faster, more rigorous evaluation systems and the ability to switch models quickly when the data changes.
 3. **[Mechanical empathy](https://mechanical-sympathy.blogspot.com) is the pinnacle of good engineering.** Inference is everywhere in modern software systems. Take a coding workflow as an illustrative example. To reason about it properly, you need to understand the full stack: the human, the agent harness (Claude Code, Codex, etc.), the model gateway, the inference provider, and the model itself. For those of us ramping up, the model seems like the most intimidating part of the equation. Fortunately, the models are increasingly standardizing at an architectural level, which makes understanding them easier than ever. Meanwhile, the human behind the coding harness, and designing the stack at an enterprise, is more important than ever.
 
-> [!IMPORTANT]
-> The most interesting signal from Kimi-K3 is how inference economics and evaluation loops are changing.
+> **The most interesting signal from Kimi-K3 is how inference economics and evaluation loops are changing.**
+
+![Major model releases, April to July 2026](launch-timeline.svg)
 
 ## Key Dimensions in a Model
 
@@ -50,7 +51,6 @@ We started with [SWE-Bench](https://www.swebench.com/): a 50-instance slice per 
 
 We then added a depth test around [Valkey](https://valkey.io), which is an open source project that the Momento team deeply engages on: implement a native THROTTLE command ([GCRA](https://en.wikipedia.org/wiki/Generic_cell_rate_algorithm) rate limiter, [redis-cell](https://github.com/brandur/redis-cell) compatible, correct under replication) against a hidden grader. The agent never sees the test suite. Validation replays the hidden suite plus a five-node replication oracle. One task, but hard enough that it separates models the breadth layer cannot.
 
-> [!WARNING]
 > **A quick note on hygiene.** A contaminated eval is worse than no eval, because it tells you a confident lie, and you will route production traffic on it.
 >
 > An early run "solved" the task in one turn for 31 cents. Too good to be true, and it was. A stale local branch in the fork held a complete solution from an earlier run, and the agent innocently found it via a branch-name collision. `git clean` does not delete branches. Every cell now hard-resets to a pinned base commit and purges every local branch first.
