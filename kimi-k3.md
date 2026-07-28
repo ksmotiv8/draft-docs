@@ -55,7 +55,7 @@ The judgment of the model, its chattiness, and its temperament make an impact on
 
 They say a poem is never finished, only abandoned. Like a good poem, good engineering (and good evals) are an iterative process. You need a place to start, and you continue refining your methodology as you learn lessons and find corner cases.
 
-We run everything through **[mo](https://www.gomomento.com)**, our agent harness that fronts an LLM gateway. Every call is metered per route, so the cost numbers below are actuals off the wire, not estimates off a pricing page. If your harness cannot tell you what a task cost, you are comparing vibes. The model is one variable. Evaluate the system.
+We run everything through **[mo](https://gomomento.ai)**, our agent harness that fronts an LLM gateway. Every call is metered per route, so the cost numbers below are actuals off the wire, not estimates off a pricing page. If your harness cannot tell you what a task cost, you are comparing vibes. The model is one variable. Evaluate the system.
 
 ```
 brew install momentohq/tap/mo
@@ -95,7 +95,7 @@ Eight THROTTLE configurations and five SWE-bench configurations, one run per cel
 | GLM-5.2 | Kimi-K3 (design only) | PASS | 13m36s | $1.96 |
 | GLM-5.2 | Opus 4.8 | PASS | 6m35s | $2.02 |
 
-\* Estimated at Baseten list rates; the route is unpriced in our gateway. All other costs are gateway-metered actuals.
+\* Estimated at Baseten list rates; the route was unpriced in our gateway at the time of these runs. All other costs are gateway-metered actuals.
 
 **SWE-bench slice (50 instances).**
 
@@ -115,8 +115,10 @@ We did not pick Baseten off a pricing page. We picked it off these runs. Across 
 
 Open weights make the model a commodity. Serving is where the differentiation actually lives.
 
-## The Ride Ahead
+## Your Attention Head
 
-The launches will not slow down. Next month there will be another Kimi, another GLM, another frontier drop, another wave of water cooler takes. You cannot out-read that firehose, but you can out-measure it. Wire cost and completion into your harness, keep one hidden-grader task the models have never seen, and let new models earn their way into your router.
+Attention got Kimi-K3 to the water cooler, and attention will move onto the next model as well. What attention cannot do is tell you whether to route your work to it. That took fifty small tasks, one hidden grader, and a metered gateway: about $86 and an afternoon, straight off the tables above.
+
+Kimi-K3 ships with dozens of attention heads per layer. Your org ships with one, and it is the scarcest resource in the stack. The models are converging architecturally, which means the intimidating layer is getting easier to reason about every month. Mechanical empathy was never really about the machine. It is about where the person on top of the stack points their attention, and the returns compound for the ones who point it well. The launches will keep coming, each with its week at the water cooler. Let them have the feed. Point your head at the grader.
 
 Own your evals. Rent your models.
