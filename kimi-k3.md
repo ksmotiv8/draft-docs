@@ -107,7 +107,7 @@ Eight THROTTLE configurations and five SWE-bench configurations, one run per cel
 | Provider B Kimi fast | 49/50 | 120s | $28.50 | $0.58 |
 | Provider B Kimi standard | 42/50 | 153s | $13.73 | $0.33 |
 
-Kimi's input rate is 43 percent higher than GLM-Fast's, yet the completed batches land 3 percent apart. The expensive rows are not the pricey models; they are the configs that leave tasks unfinished. An unfinished task is the most expensive kind. And look at the two 42/50 rows: different models, same provider path, same decline bleed.
+Kimi's input rate is 43 percent higher than GLM-Fast's, yet the completed batches land 3 percent apart. Read the last column and notice which rows are expensive: not the ones running the pricey model, but the ones that leave tasks unfinished. An unfinished task still bills every token and returns nothing. And the two 42 of 50 rows are different models on the same provider path, failing the same way, with the judge rejecting their patches at the same rate.
 
 ## Why We Build on Baseten
 
