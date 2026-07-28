@@ -49,9 +49,12 @@ We started with SWE-Bench: a 50-instance slice per configuration, real GitHub is
 
 We then added a depth test around Valkey, which is an open source project that the Momento team deeply engages on: implement a native THROTTLE command (GCRA rate limiter, redis-cell compatible, correct under replication) against a hidden grader. The agent never sees the test suite. Validation replays the hidden suite plus a five-node replication oracle. One task, but hard enough that it separates models the breadth layer cannot.
 
-A quick note on hygiene: a contaminated eval is worse than no eval, because it tells you a confident lie, and you will route production traffic on it.
-
-An early run "solved" the task in one turn for 31 cents. Too good to be true, and it was. A stale local branch in the fork held a complete solution from an earlier run, and the agent innocently found it via a branch-name collision. `git clean` does not delete branches. Every cell now hard-resets to a pinned base commit and purges every local branch first. If your eval has ever produced a miracle, audit it.
+> [!WARNING]
+> **A quick note on hygiene.** A contaminated eval is worse than no eval, because it tells you a confident lie, and you will route production traffic on it.
+>
+> An early run "solved" the task in one turn for 31 cents. Too good to be true, and it was. A stale local branch in the fork held a complete solution from an earlier run, and the agent innocently found it via a branch-name collision. `git clean` does not delete branches. Every cell now hard-resets to a pinned base commit and purges every local branch first.
+>
+> **If your eval has ever produced a miracle, audit it.**
 
 ## Highlighted Results
 
