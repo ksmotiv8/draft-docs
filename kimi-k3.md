@@ -25,11 +25,13 @@ Yet the benchmark screenshots, parameter counts, and comparisons against frontie
 | [DeepSeek V4-Pro](https://deepseek.ai/deepseek-v4) | 1.6T | ~49B |
 | [Kimi K3](https://github.com/MoonshotAI/Kimi-K3) | 2.8T | 104B |
 
-Active parameters are the slice of the network that actually fires for each token: Kimi has 896 experts, but it only activates 16 of them per token. The ability to activate only 1.8% of its experts drastically improves the cost effectiveness of the model for each request. Training uncovers how many experts to activate and which ones to route each job to, and that routing layer is a crucial part of model performance.
+Active parameters are the slice of the network that actually fires for each token: Kimi has 896 experts, but it only activates 16 of them per token. The ability to activate only 1.8% of its experts drastically improves the cost effectiveness of the model for each request. The expert count and the number activated per token are fixed at design time: the total is capped by what fits in VRAM, and the top-K is calibrated to the compute units doing the work. What training learns is the routing, which experts each token lands on, and that routing layer is a crucial part of model performance. What practitioners are finding is that the size of each expert moves quality more than the total number of experts does.
 
 Oddly enough, GLM, Inkling, and DeepSeek V4 all land in the same 40-55B active band, even though their total parameter counts vary by 4x or more. That is oddly specific. I suspect the answer lies in the GPU hardware.
 
-For most of this class, the serving quantum is an 8-GPU NVLink node, and the node imposes two separate budgets. Memory capacity caps total parameters: the whole model has to fit in the node's HBM. Memory bandwidth caps active parameters: every active parameter is read from memory for every generated token, and that read competes with every concurrent user's KV cache traffic. The 40-55B band is roughly one GPU's worth of bandwidth per token step.
+The trade MoE buys you: total model size can scale dramatically while the per-token cost stays close to running the selected experts plus router overhead, because what moves between experts is activations, not weights, and activations are tiny. The bill comes due inside the GPU: every active parameter must be read out of HBM for every generated token.
+
+For most of this class, the serving quantum is an 8-GPU NVLink node, and the node imposes two separate budgets. Memory capacity caps total parameters: every expert has to sit in the node's HBM whether or not it fires. Memory bandwidth, the HBM read speed inside a single GPU, not the interconnect between GPUs, caps active parameters: that per-token read competes with every concurrent user's KV cache traffic. The 40-55B band is roughly one GPU's worth of HBM bandwidth per token step.
 
 **Total parameters are sized to the node; active parameters are sized to the GPU.**
 
