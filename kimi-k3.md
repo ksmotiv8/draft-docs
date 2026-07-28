@@ -43,7 +43,11 @@ GLM is fast and cheap; Kimi is slow and deliberate. But GLM's chattiness cuts it
 
 Here is what that looks like in practice. We asked both models to add a native THROTTLE command to Valkey: a real feature in a real codebase, with a hidden test suite waiting at the end. Kimi worked quietly: 22.7K output tokens, one turn, passed, an estimated $1.42. GLM-5.2-Fast talked its way through 50.8K output tokens and three turns, and still failed, for $2.94. Kimi was slower on the clock, but the louder model paid double to be wrong.
 
-**3. The right definition of latency.** Just as $/million tokens is not the right metric for overall cost, tokens/second and TTFT alone do not capture the latency that matters: how long did it take you to complete the task. If a model jumps the gun and "completes" your coding task, did it really finish the task? In addition to generating tokens, models make tool calls, make a varying number of turns for the same task, and reason differently. The judgment of the model, its chattiness, and its temperament make an impact on the total time to complete the task at a bar you deem worthy. This is another example of why you need proper evals instead of looking at metrics that are convenient to advertise.
+**3. The right definition of latency is how long it takes you to complete the task, at an acceptable quality bar.** Much like $/million tokens, tokens/second and TTFT alone do not capture the full picture.
+
+If a model jumps the gun and "completes" your coding task, did it really finish the task? Models make tool calls, make a varying number of turns for the same task, and reason differently.
+
+The judgment of the model, its chattiness, and its temperament make an impact on the total time to complete the task at a bar you deem worthy.
 
 ## Our Eval Framework: The Rest Is Still Unwritten
 
