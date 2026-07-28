@@ -51,7 +51,7 @@ The judgment of the model, its chattiness, and its temperament make an impact on
 
 ## Our Eval Framework: The Rest Is Still Unwritten
 
-They say [a poem is never finished, only abandoned](https://quoteinvestigator.com/2019/03/01/abandon/). Like a good poem, good engineering (and good evals) are an iterative process. You need a place to start, and you continue refining your methodology as you learn lessons and find corner cases.
+They say a poem is never finished, only abandoned. Like a good poem, good engineering (and good evals) are an iterative process. You need a place to start, and you continue refining your methodology as you learn lessons and find corner cases.
 
 We run everything through **[mo](https://www.gomomento.com)**, our agent harness that fronts an LLM gateway. Every call is metered per route, so the cost numbers below are actuals off the wire, not estimates off a pricing page. If your harness cannot tell you what a task cost, you are comparing vibes. The model is one variable. Evaluate the system.
 
