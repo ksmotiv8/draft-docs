@@ -37,7 +37,7 @@ Kimi deliberately breaks both budgets. Its total weights spill across nodes (Moo
 
 **2. $/million tokens is not the cost you think it is.** $/million tokens is what the industry talks about; what really matters is cost per task. This is because not all output tokens are equal.
 
-Je n'ai fait celle-ci plus longue que parce que je n'ai pas eu le loisir de la faire plus courte. No, that is not a GLM moment (it famously drifts into Chinese when it is working hard). It is [Pascal](https://quoteinvestigator.com/2012/04/28/shorter-letter/): "I would have made this letter shorter, but I did not have the time." He would have understood token pricing.
+Je n'ai fait celle-ci plus longue que parce que je n'ai pas eu le loisir de la faire plus courte. No, that is not a GLM moment (it famously drifts into Chinese when it is working hard). It is Blaise Pascal: "I would have made this letter shorter, but I did not have the time." He would have understood token pricing.
 
 GLM is fast and cheap; Kimi is slow and deliberate. But GLM's chattiness cuts its signal-to-noise ratio. GLM is the neighbor you dread asking for the time, because you will get the full provenance of their watch first, and the watch can still be wrong.
 
