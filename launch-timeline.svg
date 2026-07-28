@@ -1,64 +1,86 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="620" viewBox="0 0 1600 620" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
-  <defs>
-    <filter id="card" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#1e2a3a" flood-opacity="0.10"/>
-    </filter>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="640" viewBox="0 0 1600 640" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="1600" height="640" rx="28" fill="#edf1f7"/>
 
-  <rect x="0" y="0" width="1600" height="620" rx="28" fill="#edf1f7"/>
+  <text x="92" y="82" font-size="34" font-weight="700" fill="#1e2a3a">The frontier launch cadence is accelerating</text>
+  <text x="92" y="120" font-size="19" fill="#5b6b7c">Major model releases, April to July 2026, plotted to scale</text>
 
-  <text x="92" y="86" font-size="34" font-weight="700" fill="#1e2a3a">The frontier launch cadence is accelerating</text>
-  <text x="92" y="124" font-size="19" fill="#5b6b7c">Major model releases, April to July 2026</text>
-
-  <!-- timeline -->
-  <line x1="130" y1="330" x2="1470" y2="330" stroke="#aebbc9" stroke-width="7" stroke-linecap="round"/>
-
-  <!-- dots -->
-  <circle cx="215" cy="330" r="14" fill="#6366f1" stroke="#ffffff" stroke-width="5"/>
-  <circle cx="490" cy="330" r="14" fill="#8b5cf6" stroke="#ffffff" stroke-width="5"/>
-  <circle cx="765" cy="330" r="14" fill="#10a37f" stroke="#ffffff" stroke-width="5"/>
-  <circle cx="1040" cy="330" r="14" fill="#f59e0b" stroke="#ffffff" stroke-width="5"/>
-  <circle cx="1330" cy="330" r="14" fill="#16283c" stroke="#ffffff" stroke-width="5"/>
-
-  <!-- Gemma 4 (above) -->
-  <g filter="url(#card)">
-    <rect x="80" y="175" width="270" height="118" rx="14" fill="#ffffff"/>
-    <text x="104" y="212" font-size="15" font-weight="700" letter-spacing="1" fill="#6366f1">APR 2</text>
-    <text x="104" y="246" font-size="24" font-weight="700" fill="#1e2a3a">Gemma 4</text>
-    <text x="104" y="274" font-size="15" fill="#5b6b7c">Google open-model family</text>
+  <!-- month grid -->
+  <g stroke="#d3dbe5" stroke-width="2">
+    <line x1="120" y1="180" x2="120" y2="470"/>
+    <line x1="491" y1="180" x2="491" y2="470"/>
+    <line x1="874" y1="180" x2="874" y2="470"/>
+    <line x1="1245" y1="180" x2="1245" y2="470"/>
+  </g>
+  <g font-size="15" fill="#8494a5" font-weight="600">
+    <text x="128" y="200">APR</text>
+    <text x="499" y="200">MAY</text>
+    <text x="882" y="200">JUN</text>
+    <text x="1253" y="200">JUL</text>
   </g>
 
-  <!-- Claude Fable 5 (below) -->
-  <g filter="url(#card)">
-    <rect x="355" y="368" width="270" height="118" rx="14" fill="#ffffff"/>
-    <text x="379" y="405" font-size="15" font-weight="700" letter-spacing="1" fill="#8b5cf6">JUN 9</text>
-    <text x="379" y="439" font-size="24" font-weight="700" fill="#1e2a3a">Claude Fable 5</text>
-    <text x="379" y="467" font-size="15" fill="#5b6b7c">Anthropic frontier model</text>
+  <!-- axis -->
+  <line x1="120" y1="330" x2="1480" y2="330" stroke="#aebbc9" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- GPT-5.6 preview-to-GA connector -->
+  <line x1="1183" y1="330" x2="1344" y2="330" stroke="#f59e0b" stroke-width="6" stroke-linecap="round" opacity="0.35"/>
+
+  <!-- leader lines -->
+  <g stroke="#8494a5" stroke-width="1.5">
+    <line x1="132" y1="316" x2="132" y2="262"/>
+    <line x1="973" y1="316" x2="973" y2="262"/>
+    <line x1="1059" y1="344" x2="1059" y2="398"/>
+    <line x1="1183" y1="316" x2="1183" y2="212"/>
+    <line x1="1344" y1="344" x2="1344" y2="448"/>
+    <line x1="1430" y1="316" x2="1430" y2="262"/>
   </g>
 
-  <!-- GLM-5.2 (above) -->
-  <g filter="url(#card)">
-    <rect x="630" y="175" width="270" height="118" rx="14" fill="#ffffff"/>
-    <text x="654" y="212" font-size="15" font-weight="700" letter-spacing="1" fill="#10a37f">JUN 16</text>
-    <text x="654" y="246" font-size="24" font-weight="700" fill="#1e2a3a">GLM-5.2</text>
-    <text x="654" y="274" font-size="15" fill="#5b6b7c">1M-context open model</text>
+  <!-- dots at true date positions -->
+  <circle cx="132" cy="330" r="13" fill="#6366f1" stroke="#ffffff" stroke-width="4"/>
+  <circle cx="973" cy="330" r="13" fill="#8b5cf6" stroke="#ffffff" stroke-width="4"/>
+  <circle cx="1059" cy="330" r="13" fill="#10a37f" stroke="#ffffff" stroke-width="4"/>
+  <circle cx="1183" cy="330" r="11" fill="#edf1f7" stroke="#f59e0b" stroke-width="5"/>
+  <circle cx="1344" cy="330" r="13" fill="#f59e0b" stroke="#ffffff" stroke-width="4"/>
+  <circle cx="1430" cy="330" r="16" fill="#16283c" stroke="#ffffff" stroke-width="4"/>
+
+  <!-- labels: quiet left -->
+  <g text-anchor="middle">
+    <text x="132" y="240" font-size="20" font-weight="700" fill="#1e2a3a">Gemma 4</text>
+    <text x="132" y="218" font-size="14" font-weight="700" fill="#6366f1">APR 2</text>
   </g>
 
-  <!-- GPT-5.6 (below) -->
-  <g filter="url(#card)">
-    <rect x="905" y="368" width="270" height="118" rx="14" fill="#ffffff"/>
-    <text x="929" y="405" font-size="15" font-weight="700" letter-spacing="1" fill="#f59e0b">JUN 26 / JUL 9</text>
-    <text x="929" y="439" font-size="24" font-weight="700" fill="#1e2a3a">GPT-5.6</text>
-    <text x="929" y="467" font-size="15" fill="#5b6b7c">Preview / general release</text>
+  <!-- cluster labels, staggered -->
+  <g text-anchor="middle">
+    <text x="955" y="240" font-size="20" font-weight="700" fill="#1e2a3a">Claude Fable 5</text>
+    <text x="955" y="218" font-size="14" font-weight="700" fill="#8b5cf6">JUN 9</text>
+
+    <text x="1059" y="424" font-size="20" font-weight="700" fill="#1e2a3a">GLM-5.2</text>
+    <text x="1059" y="446" font-size="14" font-weight="700" fill="#10a37f">JUN 16</text>
+
+    <text x="1183" y="190" font-size="20" font-weight="700" fill="#1e2a3a">GPT-5.6 preview</text>
+    <text x="1183" y="168" font-size="14" font-weight="700" fill="#f59e0b">JUN 26</text>
+
+    <text x="1344" y="474" font-size="20" font-weight="700" fill="#1e2a3a">GPT-5.6 GA</text>
+    <text x="1344" y="496" font-size="14" font-weight="700" fill="#f59e0b">JUL 9</text>
   </g>
 
-  <!-- Kimi K3 (above, dark) -->
-  <g filter="url(#card)">
-    <rect x="1180" y="175" width="300" height="118" rx="14" fill="#16283c"/>
-    <text x="1204" y="212" font-size="15" font-weight="700" letter-spacing="1" fill="#7db4f5">JUL 16</text>
-    <text x="1204" y="246" font-size="24" font-weight="700" fill="#ffffff">Kimi K3</text>
-    <text x="1204" y="274" font-size="15" fill="#c3d2e0">2.8T open-weight model</text>
+  <!-- Kimi K3 dark chip -->
+  <g>
+    <rect x="1352" y="216" width="156" height="46" rx="10" fill="#16283c"/>
+    <text x="1430" y="238" font-size="14" font-weight="700" fill="#7db4f5" text-anchor="middle">JUL 16</text>
+    <text x="1430" y="256" font-size="19" font-weight="700" fill="#ffffff" text-anchor="middle">Kimi K3</text>
   </g>
 
-  <text x="92" y="560" font-size="15" fill="#5b6b7c">Dates reflect official announcements; GPT-5.6 entered preview June 26 and general availability July 9.</text>
+  <!-- gap annotations -->
+  <g stroke="#5b6b7c" stroke-width="2">
+    <line x1="150" y1="540" x2="955" y2="540"/>
+    <line x1="150" y1="533" x2="150" y2="547"/>
+    <line x1="955" y1="533" x2="955" y2="547"/>
+    <line x1="991" y1="540" x2="1430" y2="540"/>
+    <line x1="991" y1="533" x2="991" y2="547"/>
+    <line x1="1430" y1="533" x2="1430" y2="547"/>
+  </g>
+  <text x="552" y="572" font-size="17" fill="#5b6b7c" text-anchor="middle">68 quiet days</text>
+  <text x="1210" y="572" font-size="17" font-weight="700" fill="#1e2a3a" text-anchor="middle">four models in 37 days</text>
+
+  <text x="92" y="614" font-size="14" fill="#8494a5">Dates reflect official announcements; GPT-5.6 entered preview June 26 and general availability July 9.</text>
 </svg>
