@@ -47,7 +47,7 @@ Here is what that looks like in practice. We asked both models to add a native T
 
 If a model jumps the gun and "completes" your coding task, did it really finish the task? Models make tool calls, make a varying number of turns for the same task, and reason differently.
 
-The judgment of the model, its chattiness, and its temperament make an impact on the total time to complete the task at a bar you deem worthy.
+The judgment of the model, its chattiness, and its temperament make an impact on the total time to complete the task at a bar you deem worthy. In our SWE-bench batch, GLM-Fast's median task finished in 71 seconds to Kimi's 121, yet the bills landed 3 percent apart: fast tokens did not buy a cheaper or better outcome.
 
 ## Our Eval Framework: The Rest Is Still Unwritten
 
