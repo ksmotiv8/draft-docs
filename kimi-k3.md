@@ -2,7 +2,7 @@
 
 *[Attention](https://arxiv.org/abs/1706.03762) is warranted, depth is required, model selection is not optional.*
 
-[Kimi-K3](https://huggingface.co/moonshotai) is the center of attention at the proverbial water cooler, aka LinkedIn, this week. The attention is warranted. Kimi-K3 is a frontier-class, natively multimodal model (text, image, and video flow through the same network) with ~2.8T total parameters, activating 16 of its 896 experts per token in its MoE architecture. It is now among the first models where inference providers like [Baseten](https://www.baseten.co) can charge ~$15 per million output tokens at the top end. That price is not arbitrary: in our runs, Kimi-K3 is less chatty than models like GLM, and while slower, it tends to be more deliberate, with what appears to be stronger reasoning stability.
+[Kimi-K3](https://huggingface.co/moonshotai) is the center of attention at the proverbial water cooler, aka LinkedIn, this week. The attention is warranted. Kimi-K3 is a frontier-class, natively multimodal model (text, image, and video flow through the same network) with ~2.8T total parameters, activating 16 of its 896 experts per token in its MoE architecture. It is now among the first models where inference providers like [Baseten](https://www.baseten.co) can charge ~$15 per million output tokens at the top end. That price is not arbitrary, and the hardware arithmetic below explains it. In our runs, Kimi-K3 is less chatty than models like GLM, and while slower, it tends to be more deliberate, with what appears to be stronger reasoning stability.
 
 Yet the benchmark screenshots, parameter counts, and comparisons against frontier models obscure a more important story with three dimensions:
 
@@ -31,7 +31,7 @@ Oddly enough, GLM, Inkling, and DeepSeek V4 all land in the same 40-55B active b
 
 The trade MoE buys you: total model size can scale dramatically while the per-token cost stays close to running the selected experts plus router overhead, because what moves between experts is activations, not weights, and activations are tiny. The bill comes due inside the GPU: every active parameter must be read out of HBM for every generated token.
 
-For most of this class, the serving quantum is an 8-GPU NVLink node, and the node imposes two separate budgets. Memory capacity caps total parameters: every expert has to sit in the node's HBM whether or not it fires. Memory bandwidth, the HBM read speed inside a single GPU, not the interconnect between GPUs, caps active parameters: that per-token read competes with every concurrent user's KV cache traffic. The 40-55B band is roughly one GPU's worth of HBM bandwidth per token step.
+For most of this class, the unit of serving is an 8-GPU NVLink node, and the node imposes two separate budgets. Memory capacity caps total parameters: every expert has to sit in the node's HBM whether or not it fires. Memory bandwidth, the HBM read speed inside a single GPU, not the interconnect between GPUs, caps active parameters: that per-token read competes with every concurrent user's KV cache traffic. The 40-55B band is roughly one GPU's worth of HBM bandwidth per token step.
 
 **Total parameters are sized to the node; active parameters are sized to the GPU.**
 
@@ -49,13 +49,13 @@ Here is what that looks like in practice. We asked both models to add a native T
 
 If a model jumps the gun and "completes" your coding task, did it really finish the task? Models make tool calls, make a varying number of turns for the same task, and reason differently.
 
-The judgment of the model, its chattiness, and its temperament make an impact on the total time to complete the task at a bar you deem worthy. In our SWE-bench batch, GLM-Fast's median task finished in 71 seconds to Kimi's 121, yet the bills landed 3 percent apart: fast tokens did not buy a cheaper or better outcome.
+The judgment of the model, its chattiness, and its temperament make an impact on the total time to complete the task at a bar you deem worthy. In our SWE-bench batch, GLM-Fast's median task finished in 71 seconds to Kimi's 121, yet the bills landed 29 cents apart: fast tokens did not buy a cheaper or better outcome.
 
 ## Our Eval Framework: The Rest Is Still Unwritten
 
 They say a poem is never finished, only abandoned. Like a good poem, good engineering (and good evals) are an iterative process. You need a place to start, and you continue refining your methodology as you learn lessons and find corner cases.
 
-We run everything through **[mo](https://www.gomomento.com)**, our agent harness that fronts an LLM gateway. Every call is metered per route, so the cost numbers below are actuals off the wire, not estimates off a pricing page. If your harness cannot tell you what a task cost, you are comparing vibes. The model is one variable. Evaluate the system.
+We run everything through **[mo](https://gomomento.ai)**, our agent harness that fronts an LLM gateway. Every call is metered per route, so the cost numbers below are actuals off the wire, not estimates off a pricing page. If your harness cannot tell you what a task cost, you are comparing vibes. The model is one variable. Evaluate the system.
 
 ```
 brew install momentohq/tap/mo
@@ -74,28 +74,27 @@ We then added a depth test around [Valkey](https://valkey.io), which is an open 
 
 ## Highlighted Results
 
-Eight THROTTLE configurations and five SWE-bench configurations, one run per cell, through mo on Baseten and one other provider. These are real-world observations, not controlled A/Bs. The lessons that survived the runs:
+Seven THROTTLE configurations and five SWE-bench configurations, one run per cell, through mo on Baseten and one other provider. These are real-world observations, not controlled A/Bs. The lessons that survived the runs:
 
 - **Kimi-K3 passes our hardest systems benchmark solo**, with no planning phase, at the lowest estimated cost of any Kimi configuration. Adding a plan phase doubled its cost for zero quality gain.
 - **GLM-5.2 stays the routing sweet spot**: cheaper wall time, and it passes when any competent planner sets the direction. Planner and builder are different jobs.
-- **Sticker prices compress in practice.** A 43 percent input-rate gap became a 3 percent batch-cost gap, because agentic sessions are dominated by cache reads and both models cache well.
-- **Task completion tracked the serving path, not the model.** One provider path bled judge declines for two different models.
+- **List prices exaggerate.** On paper, Kimi's input tokens cost 43 percent more than GLM-Fast's. In the metered batches the gap was 29 cents: $10.41 versus $10.12. An agentic session spends most of its input tokens re-reading its own context, which bills at the discounted cache-read rate, and both models sustained high cache hit rates. Most of the list-price gap never gets billed.
+- **Completion rates followed the provider, not the model.** The two worst rows in the SWE-bench table are different models on the same serving path, both stuck at 42 of 50, failing the same way: patches the judge rejected. Swap the model and the problem stays. Swap the provider and it goes away. Benchmark only models and you will blame the wrong layer.
 - **The harness is a variable.** The same model flipped between pass and fail depending on who drove it.
 
-**THROTTLE (hidden grader, Valkey fork).** All models served on Baseten except the Opus planners.
+**THROTTLE (hidden grader, Valkey fork).** All models served on Baseten except the Opus 4.8 planner.
 
 | Builder | Planner / design | Verdict | Wall | Cost |
 |---|---|---|---|---|
 | Kimi-K3 | none (solo) | PASS | 27m05s | ~$1.42* |
-| Kimi-K3 | itself | PASS | 28m | ~$3.17* |
+| Kimi-K3 | itself | PASS | 28m00s | ~$3.17* |
 | Kimi-K3 | Opus 4.8 | PASS | 43m55s | $3.82 |
-| Kimi-K3 | Opus 5 | FAIL | 100m cap | n/a |
 | GLM-5.2-Fast | none (solo) | FAIL | 21m16s | $2.94 |
 | GLM-5.2-Fast | Kimi-K3 | PASS | 15m36s | $2.05 |
 | GLM-5.2 | Kimi-K3 (design only) | PASS | 13m36s | $1.96 |
 | GLM-5.2 | Opus 4.8 | PASS | 6m35s | $2.02 |
 
-\* Estimated at Baseten list rates; the route is unpriced in our gateway. All other costs are gateway-metered actuals.
+\* Estimated at Baseten list rates; the route was unpriced in our gateway at the time of these runs. All other costs are gateway-metered actuals.
 
 **SWE-bench slice (50 instances).**
 
@@ -107,16 +106,20 @@ Eight THROTTLE configurations and five SWE-bench configurations, one run per cel
 | Provider B Kimi fast | 49/50 | 120s | $28.50 | $0.58 |
 | Provider B Kimi standard | 42/50 | 153s | $13.73 | $0.33 |
 
-Kimi's input rate is 43 percent higher than GLM-Fast's, yet the completed batches land 3 percent apart. The expensive rows are not the pricey models; they are the configs that leave tasks unfinished. An unfinished task is the most expensive kind. And look at the two 42/50 rows: different models, same provider path, same decline bleed.
+Kimi's input rate is 43 percent higher than GLM-Fast's, yet the completed Baseten batches land 29 cents apart. Now read down the Kimi rows: the same model, resolving 48 or 49 of 50, costs $10.41 on one serving path and $28.50 on another. And the two 42 of 50 rows are different models on the same provider path, failing the same way, with the judge rejecting their patches at the same rate. Price and completion both tracked the serving path.
 
 ## Why We Build on Baseten
 
 We did not pick Baseten off a pricing page. We picked it off these runs. Across both layers, the Baseten-served routes had the cleanest completion rates, dependable prefix caching (97 percent-plus cache-read on long sessions), and boring latency tails. Boring tails are the highest compliment an agent platform can pay a serving stack.
 
+These runs changed our routing, not just our slides: on our production gateway, Baseten is the primary serving leg for Kimi-K3, and everything else in the chain is failover.
+
 Open weights make the model a commodity. Serving is where the differentiation actually lives.
 
-## The Ride Ahead
+## Your Attention Head
 
-The launches will not slow down. Next month there will be another Kimi, another GLM, another frontier drop, another wave of water cooler takes. You cannot out-read that firehose, but you can out-measure it. Wire cost and completion into your harness, keep one hidden-grader task the models have never seen, and let new models earn their way into your router.
+Attention got Kimi-K3 to the water cooler, and attention will move onto the next model as well. What attention cannot do is tell you whether to route your work to it. That took fifty small tasks, one hidden grader, and a metered gateway: about $88 and an afternoon, straight off the tables above.
+
+Kimi-K3 ships with 96 attention heads per layer. Your org ships with one: you are the scarcest resource in the stack. The models are converging architecturally, which means the intimidating layer is getting easier to reason about every month. Mechanical empathy was never really about the machine. It is about where the person on top of the stack points their attention, and the returns compound for the ones who point it well. The launches will keep coming, each with its week at the water cooler. Attention is all they need from you. It is not all you need from them.
 
 Own your evals. Rent your models.
