@@ -110,11 +110,11 @@ Kimi's input rate is 43 percent higher than GLM-Fast's, yet the completed Basete
 
 ## Why We Build on Baseten
 
-We did not pick Baseten off a pricing page. We picked it off these runs. Across both layers, the Baseten-served routes had the cleanest completion rates, dependable prefix caching (97 percent-plus cache-read on long sessions), and boring latency tails. Boring tails are the highest compliment an agent platform can pay a serving stack.
+Through both layers of these runs, Baseten kept doing the least interesting thing on the dashboard: it finished. Completion rates stayed clean, prefix caches held 97 percent-plus deep into long sessions, and the latency tails stayed boring. Boring tails are the highest compliment an agent platform can pay a serving stack. Nothing to graph, nothing to page about, agents that simply finish.
 
-These runs changed our routing, not just our slides: on our production gateway, Baseten is the primary serving leg for Kimi-K3, and everything else in the chain is failover.
+Today, on our production gateway, Baseten is the primary serving leg for Kimi-K3. Every other route in the chain is failover. When the next model takes over the water cooler, that decision gets re-earned the same way, by whoever keeps our agents finishing.
 
-Open weights make the model a commodity. Serving is where the differentiation actually lives.
+Open weights are turning the model into the part you rent. Serving is where the differentiation lives.
 
 ## Your Attention Head
 
